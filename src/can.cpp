@@ -28,7 +28,7 @@ static uint32_t tr_rx=0, tr_tx=0, tr_fail=0, tr_last_rx=0;
 bool Can::transportBegin() {
     twai_general_config_t g=TWAI_GENERAL_CONFIG_DEFAULT(Config::CAN_TX,Config::CAN_RX,TWAI_MODE_NORMAL);
     g.tx_queue_len=8; g.rx_queue_len=20;
-    twai_timing_config_t timing = TWAI_TIMING_CONFIG_500KBITS();
+    twai_timing_config_t timing = TWAI_TIMING_CONFIG_1MBITS();
     twai_filter_config_t filter = TWAI_FILTER_CONFIG_ACCEPT_ALL();
     if(twai_driver_install(&g,&timing,&filter)!=ESP_OK) return false;
     return twai_start()==ESP_OK;

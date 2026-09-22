@@ -4,8 +4,6 @@
 #include <driver/twai.h>
 
 // Unified CAN protocol: standard ID 0x000, DLC=8, data[0]=0xA0.
-// No board number or MAC is carried. Two simultaneous claims cannot be
-// reliably distinguished; normal operation assumes one button action at a time.
 class Can {
   public:
     static void begin();

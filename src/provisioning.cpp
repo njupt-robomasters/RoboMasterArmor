@@ -505,7 +505,7 @@ void Provisioning::startStaSession(const String &ssid, const String &password) {
 }
 
 void Provisioning::beginNormal() {
-    // 配置只在 RAM 中有效，每次上电都从未配网状态开始。
+    // 有已保存配置时自动恢复联网，否则停在离线状态等待长按配网。
     Hit::setProvisioningMode(false);
     Hit::setNetworkConnectingMode(false);
     wifi_session_active = false;
@@ -517,6 +517,16 @@ void Provisioning::beginNormal() {
             static_cast<unsigned long>(Settings::getRobotId(3)));
     }
     if (!Config::SERIAL_CAN_ONLY) Serial.println("WIFI not configured; hold KEY for 2 seconds");
+
+    // 已配网过的板子上电直接恢复联网，避免每次断电都要重新配网。
+    // 未配网过的板子仍停在离线状态，需要长按进入配网。
+    if (Settings::hasSavedConfig() && Settings::hasWiFiCredentials()) {
+        if (!Config::SERIAL_CAN_ONLY) Serial.printf(
+            "WIFI saved config found, restoring SSID=%s\n",
+            Settings::getWiFiSsid().c_str());
+        startStaSession(Settings::getWiFiSsid(), Settings::getWiFiPassword());
+        return;
+    }
 }
 
 static void configureSoftApRadio() {
@@ -828,7 +838,7 @@ void Provisioning::handleSave() {
     if (!Config::SERIAL_CAN_ONLY) Serial.printf(
         "WIFI credentials saved robot_id=%ld\n",
         robot_id);
-    // 配置只保存在 RAM，本次运行立即生效，断电后重新配网。
+    // 配置写入 NVS，掉电后保留，下次上电自动恢复联网。
     server.send(204);
 
     dns_server.stop();

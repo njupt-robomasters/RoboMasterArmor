@@ -26,7 +26,7 @@ static constexpr uint32_t PROVISIONING_ENTRY_SOLID_MS = 1000;
 static constexpr uint32_t HIT_THRESHOLD = 2000;
 
 // 两次有效击打的时间间隔必须严格大于该值。
-static constexpr uint32_t HIT_COOLDOWN_MS = 500;
+static constexpr uint32_t HIT_COOLDOWN_MS = 50;
 
 // 阵营切换后紫灯至少保持这段时间，避免裁判 ACK 很快到达时看不到登录过程。
 static constexpr uint32_t TEAM_SWITCH_PURPLE_MIN_MS = 800;
@@ -64,7 +64,7 @@ static constexpr uint8_t AP_CHANNEL = 6;
 static constexpr uint32_t LONG_PRESS_MS = 1000;
 
 // CAN配置。内部所有报文统一使用标准 ID 0x00，报文类型放在数据区。
-static constexpr uint32_t CAN_BITRATE = 500000;
+static constexpr uint32_t CAN_BITRATE = 1000000;
 
 // 裁判系统 UDP 配置
 static constexpr uint8_t REFEREE_SERVER_IP[4] = {192, 168, 1, 2};
