@@ -1,0 +1,10 @@
+# PlatformIO 编译产物
+.pio/
+
+# 编辑器
+.vscode/
+*.code-workspace
+
+# 系统文件
+.DS_Store
+Thumbs.db
